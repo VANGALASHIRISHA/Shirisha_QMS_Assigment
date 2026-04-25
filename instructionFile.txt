@@ -1,0 +1,236 @@
+# 📘 HCP Interaction Logger – Setup & Run Guide
+
+## 🧩 Project Overview
+
+This project converts unstructured text (paragraph input) into structured HCP interaction data using AI and stores it in a MySQL database. The extracted data is displayed in a React-based frontend form.
+
+---
+
+# ⚙️ Prerequisites
+
+Make sure the following are installed:
+
+* Python (3.9+)
+* Node.js (v16+)
+* MySQL Server
+* Git (optional)
+
+---
+
+# 📁 Project Structure
+
+```
+Ai_Assignment/
+│
+├── backend/
+│   ├── main.py
+│   ├── prompt.py
+│   ├── db.py
+│   ├── requirements.txt
+│   └── .env
+│
+└── frontend/
+    ├── package.json
+    └── src/
+        ├── App.js
+        └── index.js
+```
+
+---
+
+# 🛢️ Step 1: MySQL Database Setup
+
+1. Open MySQL terminal:
+
+```
+mysql -u root -p
+```
+
+2. Run the following:
+
+```sql
+CREATE DATABASE ai_parser;
+
+USE ai_parser;
+
+CREATE TABLE hcp_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    hcp_name VARCHAR(100),
+    interaction_type VARCHAR(50),
+    date VARCHAR(50),
+    time VARCHAR(50),
+    attendees TEXT,
+    topics_discussed TEXT,
+    materials_shared TEXT,
+    samples_distributed TEXT,
+    hcp_sentiment VARCHAR(20),
+    outcomes TEXT,
+    follow_up_actions TEXT
+);
+```
+
+---
+
+# 🔧 Step 2: Backend Setup (FastAPI)
+
+## Navigate to backend:
+
+```
+cd backend
+```
+
+## Create virtual environment:
+
+```
+python -m venv venv
+```
+
+## Activate it:
+
+Windows:
+
+```
+venv\Scripts\activate
+```
+
+## Install dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+---
+
+# 🔑 Step 3: Add API Key
+
+Create `.env` file inside backend:
+
+```
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+---
+
+# ▶️ Step 4: Run Backend
+
+```
+uvicorn main:app --reload
+```
+
+Open in browser:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# ⚛️ Step 5: Frontend Setup (React)
+
+## Navigate to frontend:
+
+```
+cd ../frontend
+```
+
+## Install dependencies:
+
+```
+npm install
+```
+
+## Run frontend:
+
+```
+npm start
+```
+
+Open:
+
+```
+http://localhost:3000
+```
+
+---
+
+# 🧪 Step 6: Test Input
+
+Paste this into the UI:
+
+```
+Met Dr. Smith at 7:30 PM. It was a meeting where we discussed Product X efficiency. Shared brochures. Sentiment was positive. Follow-up next week.
+```
+
+---
+
+# ✅ Expected Output
+
+* Form fields auto-filled with:
+
+  * HCP Name
+  * Interaction Type
+  * Date & Time
+  * Topics
+  * Materials
+  * Sentiment
+  * Follow-up
+
+* Data stored in MySQL database
+
+---
+
+# ⚠️ Troubleshooting
+
+### ❌ Backend not starting
+
+Run:
+
+```
+pip install fastapi uvicorn
+```
+
+---
+
+### ❌ API Key error
+
+Check `.env` file and ensure valid Groq key
+
+---
+
+### ❌ MySQL error
+
+Verify:
+
+* MySQL is running
+* Username/password correct in `db.py`
+
+---
+
+### ❌ Model error
+
+Update model in `main.py` to:
+
+```
+model="llama3-70b-8192"
+```
+
+---
+
+# 🎯 Notes
+
+* Backend runs on port: 8000
+* Frontend runs on port: 3000
+* Ensure both are running simultaneously
+
+---
+
+# 🚀 Conclusion
+
+This project demonstrates:
+
+* AI-based structured data extraction
+* Backend API development with FastAPI
+* Database integration using MySQL
+* Frontend form auto-population using React
+
+---

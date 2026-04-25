@@ -1,0 +1,247 @@
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+
+  background: #F1F5F9; /* recommended background */
+  color: #021A54;
+
+  line-height: 1.5;
+}
+
+* {
+  font-family: inherit;
+}
+
+/* ================= MAIN LAYOUT (70 / 30) ================= */
+
+.app {
+  display: flex;
+  height: 100vh;
+  gap: 15px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+/* 70% INTERACTION PANEL (FORM) */
+.form-panel {
+  flex: 0.7;
+  min-width: 500px;
+
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 30% AI PANEL */
+.chat-panel {
+  flex: 0.3;
+  min-width: 280px;
+
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 20px;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ================= HEADINGS ================= */
+
+h2 {
+  margin-bottom: 15px;
+  color: #021A54;
+}
+
+/* ================= CHAT ================= */
+
+.chat-box {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 10px;
+  background: #f7f9ff;
+  border-radius: 12px;
+}
+
+/* scrollbar */
+.chat-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+/* messages */
+.user-msg {
+  align-self: flex-end;
+  background: #021A54;
+  color: white;
+
+  padding: 10px 14px;
+  border-radius: 14px 14px 0 14px;
+
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.ai-msg {
+  align-self: flex-start;
+  background: #e8ecff;
+  color: #021A54;
+
+  padding: 10px 14px;
+  border-radius: 14px 14px 14px 0;
+
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+/* chat input */
+.chat-input {
+  display: flex;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.chat-input input:focus {
+  border-color: #021A54;
+}
+
+.chat-input button {
+  background: #021A54;
+  color: white;
+
+  border: none;
+  padding: 10px 14px;
+
+  border-radius: 10px;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.chat-input button:hover {
+  opacity: 0.9;
+}
+
+/* ================= FORM ================= */
+
+.card {
+  background: #ffffff;
+  padding: 20px;
+
+  border-radius: 14px;
+  border: 1px solid #eee;
+
+  overflow-y: auto;
+}
+
+/* grid */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* form group */
+.form-group {
+  position: relative;
+  margin-top: 18px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 10px;
+  border: 1px solid #ddd;
+
+  background: #fafafa;
+  outline: none;
+
+  color: #021A54;
+}
+
+/* textarea */
+.form-group textarea {
+  resize: none;
+  height: 70px;
+}
+
+/* floating label */
+.form-group label {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+
+  font-size: 13px;
+  color: #021A54;
+
+  background: white;
+  padding: 0 5px;
+
+  transition: 0.2s ease;
+  pointer-events: none;
+}
+
+/* float effect */
+.form-group input:focus + label,
+.form-group textarea:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:not(:placeholder-shown) + label {
+  top: -8px;
+  font-size: 11px;
+}
+
+/* save button */
+.save-btn {
+  margin-top: 18px;
+
+  background: #021A54;
+  color: white;
+
+  border: none;
+  padding: 12px;
+
+  border-radius: 10px;
+  cursor: pointer;
+
+  width: 100%;
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.01);
+}
+
+/* empty state */
+.empty {
+  color: #021A54;
+  opacity: 0.6;
+}
