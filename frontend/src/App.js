@@ -54,20 +54,35 @@ function App() {
   }
 
   // 🔥 CLEAN DATA (VERY IMPORTANT for 422 fix)
- const payload = {
+const payload = {
   hcp_name: data.hcp_name || "",
   interaction_type: data.interaction_type || "",
   date: data.date || "",
   time: data.time || "",
+
   attendees: Array.isArray(data.attendees)
     ? data.attendees.join(", ")
     : data.attendees || "",
-  topics_discussed: data.topics_discussed || "",
-  materials_shared: data.materials_shared || "",
-  samples_distributed: data.samples_distributed || "", // ✅ FIXED
+
+  // ✅ FIX ALL THESE
+  topics_discussed: Array.isArray(data.topics_discussed)
+    ? data.topics_discussed.join(", ")
+    : data.topics_discussed || "",
+
+  materials_shared: Array.isArray(data.materials_shared)
+    ? data.materials_shared.join(", ")
+    : data.materials_shared || "",
+
+  samples_distributed: Array.isArray(data.samples_distributed)
+    ? data.samples_distributed.join(", ")
+    : data.samples_distributed || "",
+
+  follow_up_actions: Array.isArray(data.follow_up_actions)
+    ? data.follow_up_actions.join(", ")
+    : data.follow_up_actions || "",
+
   hcp_sentiment: data.hcp_sentiment || "",
-  outcomes: data.outcomes || "",
-  follow_up_actions: data.follow_up_actions || ""
+  outcomes: data.outcomes || ""
 };
 
 
