@@ -9,20 +9,19 @@ function App() {
 
   const chatRef = useRef(null);
 
-  // Auto scroll to bottom (ChatGPT behavior)
+  // Auto scroll
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [messages]);
 
+  // 🔹 PARSE
   const handleSend = async () => {
     if (!text.trim()) return;
 
     const userMessage = { type: "user", text };
-
     setMessages((prev) => [...prev, userMessage]);
-    setText("");
 
     try {
       const res = await axios.post("http://127.0.0.1:8000/parse", {
@@ -31,21 +30,100 @@ function App() {
 
       setData(res.data);
 
-      const aiMessage = {
-        type: "ai",
-        text: "Interaction captured successfully ✅",
-      };
+      setMessages((prev) => [
+        ...prev,
+        {
+          type: "ai",
+          text: "I have extracted the interaction details. Please review and save.",
+        },
+      ]);
 
-      setMessages((prev) => [...prev, aiMessage]);
+      setText("");
     } catch (err) {
       alert("Backend error");
     }
   };
 
+  // 🔹 SAVE
+ const handleSave = async () => {
+  console.log("SAVE CLICKED ✅");
+
+  if (!data) {
+    alert("No data to save ❌");
+    return;
+  }
+
+  // 🔥 CLEAN DATA (VERY IMPORTANT for 422 fix)
+ const payload = {
+  hcp_name: data.hcp_name || "",
+  interaction_type: data.interaction_type || "",
+  date: data.date || "",
+  time: data.time || "",
+  attendees: Array.isArray(data.attendees)
+    ? data.attendees.join(", ")
+    : data.attendees || "",
+  topics_discussed: data.topics_discussed || "",
+  materials_shared: data.materials_shared || "",
+  samples_distributed: data.samples_distributed || "", // ✅ FIXED
+  hcp_sentiment: data.hcp_sentiment || "",
+  outcomes: data.outcomes || "",
+  follow_up_actions: data.follow_up_actions || ""
+};
+
+
+
+  console.log("PAYLOAD:", payload);
+
+  try {
+    const res = await axios.post(
+      "http://127.0.0.1:8000/save",
+      payload
+    );
+
+    console.log("SUCCESS:", res.data);
+
+    alert("Saved to database ✅");
+    setData({
+  hcp_name: "",
+  interaction_type: "",
+  date: "",
+  time: "",
+  attendees: "",
+  topics_discussed: "",
+  materials_shared: "",
+  samples_distributed: "",
+  hcp_sentiment: "",
+  outcomes: "",
+  follow_up_actions: ""
+});
+
+    
+
+    // optional chat message
+    setMessages((prev) => [
+      ...prev,
+      { type: "ai", text: "Data saved successfully 💾" }
+    ]);
+
+  } catch (err) {
+  console.log("FULL ERROR OBJECT:", err);
+
+  if (err.response) {
+    console.log("STATUS:", err.response.status);
+    console.log("HEADERS:", err.response.headers);
+    console.log("BACKEND ERROR:", JSON.stringify(err.response.data, null, 2));
+  } else {
+    console.log("ERROR MESSAGE:", err.message);
+  }
+
+  alert("Save failed ❌");
+}
+
+};
   return (
     <div className="app">
 
-      {/* LEFT - FORM */}
+      {/* LEFT PANEL */}
       <div className="form-panel">
         <h2>📋 Log Interaction</h2>
 
@@ -109,14 +187,17 @@ function App() {
               <label>Follow-up Actions</label>
             </div>
 
-            <button className="save-btn">Save Interaction</button>
+            <button className="save-btn" onClick={handleSave}>
+              Save Interaction
+            </button>
+
           </div>
         ) : (
           <p className="empty">No interaction yet...</p>
         )}
       </div>
 
-      {/* RIGHT - CHAT */}
+      {/* RIGHT PANEL */}
       <div className="chat-panel">
         <h2>🤖 AI Assistant</h2>
 
